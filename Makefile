@@ -20,12 +20,13 @@ eval:
 update-branch:
 	git config user.name "$(USER_NAME)"
 	git config user.email "$(USER_EMAIL)"
+	git stash push -m "Generated model and results" -- Model Results
 	git fetch origin update
 	git checkout -B update origin/update
+	git stash pop
 	git add Model Results
 	git commit --allow-empty -m "Update with new results"
 	git push origin update
-
 
 hf-login:
 	hf auth login --token "$(HF)"
