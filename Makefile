@@ -1,10 +1,9 @@
-
 install:
-	pip install --upgrade pip && \
-	pip install -r requirements.txt
+	python -m pip install --upgrade pip
+	python -m pip install -r requirements.txt
 
 format:
-	black *.py
+	python -m black *.py
 
 train:
 	python train.py
@@ -18,18 +17,20 @@ eval:
 	cml comment create report.md
 
 update-branch:
-	git config --global user.name "$(USER_NAME)"
-	git config --global user.email "$(USER_EMAIL)"
-	git add Model Results
+	git config user.name "$(USER_NAME)"
+	git config user.email "$(USER_EMAIL)"
+	git fetch origin update
+	git reset --soft origin/update
+	git add -A -- . ':!report.md'
 	git commit --allow-empty -m "Update with new results"
-	git push --force origin HEAD:update
+	git push origin HEAD:update
 
 hf-login:
 	hf auth login --token "$(HF)"
 
 push-hub:
-	hf upload AnushkaChavan/Drug-classification ./App .
-	hf upload AnushkaChavan/Drug-classification ./Model Model
-	hf upload AnushkaChavan/Drug-classification ./Results Results
+	hf upload AnushkaChavan/Drug-classification ./App/ .
+	hf upload AnushkaChavan/Drug-classification ./Model/ Model/
+	hf upload AnushkaChavan/Drug-classification ./Results/ Results/
 
 deploy: hf-login push-hub
