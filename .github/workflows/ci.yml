@@ -1,30 +1,29 @@
-name: Continuous Integration
+
+name: Continuous Deployment
+
 on:
-  push:
-    branches: [ "main" ]
-  pull_request:
-    branches: [ "main" ]
+  workflow_run:
+    workflows: ["Continuous Integration"]
+    types: [completed]
   workflow_dispatch:
-  
-permissions: write-all
+
 jobs:
-  build:
+  deploy:
+    if: ${{ github.event_name == 'workflow_dispatch' || github.event.workflow_run.conclusion == 'success' }}
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v3
-      - uses: iterative/setup-cml@v2
-      - name: Install Packages
-        run: make install
-      - name: Format
-        run: make format
-      - name: Train
-        run: make train
-      - name: Evaluation
+      - uses: actions/checkout@v4
+        with:
+          ref: update
+
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          python -m pip install huggingface_hub
+          sudo apt-get update
+          sudo apt-get install -y make
+
+      - name: Deploy to Hugging Face
         env:
-          REPO_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        run: make eval
-      - name: Update Branch
-        env:
-          NAME: ${{ secrets.USER_NAME }}
-          EMAIL: ${{ secrets.USER_EMAIL }}
-        run: make update-branch USER_NAME=$NAME USER_EMAIL=$EMAIL
+          HF: ${{ secrets.HF }}
+        run: make deploy HF="$HF"
