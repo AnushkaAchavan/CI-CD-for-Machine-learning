@@ -9,7 +9,7 @@ from sklearn.metrics import accuracy_score, f1_score
 import matplotlib.pyplot as plt
 from sklearn.metrics import ConfusionMatrixDisplay, confusion_matrix
 
-drug_df = pd.read_csv("data/drug200.csv")
+drug_df = pd.read_csv("Data/drug200.csv")
 drug_df = drug_df.sample(frac=1)
 drug_df.head(3)
 X = drug_df.drop("Drug", axis=1).values
