@@ -4,9 +4,7 @@ emoji: 🐠
 colorFrom: yellow
 colorTo: blue
 sdk: gradio
-sdk_version: 4.16.0
-python_version: '3.12'
-app_file: app.py
+app_file: drug_app.py
 pinned: false
 license: apache-2.0
 ---
