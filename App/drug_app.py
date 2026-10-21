@@ -12,7 +12,7 @@ pipe = sio.load(
     trusted=untrusted_types
 )
 
-
+@spaces.GPU
 def predict_drug(age, sex, blood_pressure, cholesterol, na_to_k_ratio):
     """Predict drugs based on patient features.
 
