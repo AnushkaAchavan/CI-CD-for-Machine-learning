@@ -1,1 +1,1 @@
-Accuracy = 0.98, F1 Score = 0.99
+Accuracy = 0.95, F1 Score = 0.86
