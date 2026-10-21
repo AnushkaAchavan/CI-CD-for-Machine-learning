@@ -29,8 +29,8 @@ hf-login:
 	hf auth login --token "$(HF)"
 
 push-hub:
-	hf upload AnushkaChavan/Drug-classification ./App/ .
-	hf upload AnushkaChavan/Drug-classification ./Model/ Model/
-	hf upload AnushkaChavan/Drug-classification ./Results/ Results/
+	hf upload AnushkaChavan/Drug-classification ./App/ . --repo-type=space --commit-message="Sync App files"
+	hf upload AnushkaChavan/Drug-classification ./Model/ Model/ --repo-type=space --commit-message="Sync Model"
+	hf upload AnushkaChavan/Drug-classification ./Results/ Results/ --repo-type=space --commit-message="Sync Results"
 
 deploy: hf-login push-hub
