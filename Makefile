@@ -1,4 +1,3 @@
-
 install:
 	python -m pip install --upgrade pip
 	python -m pip install -r requirements.txt
@@ -20,13 +19,11 @@ eval:
 update-branch:
 	git config user.name "$(USER_NAME)"
 	git config user.email "$(USER_EMAIL)"
-	git stash push -m "Generated model and results" -- Model Results
 	git fetch origin update
-	git checkout -B update origin/update
-	git stash pop
-	git add Model Results
+	git reset --soft origin/update
+	git add -A -- . ':!report.md'
 	git commit --allow-empty -m "Update with new results"
-	git push origin update
+	git push origin HEAD:update
 
 hf-login:
 	hf auth login --token "$(HF)"
